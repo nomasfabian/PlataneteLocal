@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Prueba Platanete sin camara </title>
+</head>
+<body>
+    <script type="text/javascript">
+
+ (async function(){
+        try {
+          await CefSharp.BindObjectAsync("llamadaAsincrona","ligado");
+          document.getElementsByTagName("table")[0].style.display="block"
+         document.getElementById("mensaje").style.display="none";
+        }catch(x){
+        }
+
+        window.enviarMensaje = function (msg){
+          if (llamadaAsincrona != undefined) {
+                llamadaAsincrona.enviarMensaje(msg);
+            }
+        }
+        var botones =["up","down","left","right"]
+        var activo =0;
+        var elem = document.getElementById(botones[activo]);
+        setInterval(function(){
+          elem.className="boton";
+          elem = document.getElementById(botones[activo]);
+          elem.className+=" activo";
+          elem.click();
+          activo++;
+        if (activo > 3){
+            activo =0;
+        }
+        },1000);
+})();
+
+
+    </script>
+    <div id="mensaje" style="color:#F00"> No se pudo inicializar controlador de eventos</div>
+    <table>
+        <tr><td></td><td><div class="boton" id="up" onclick="enviarMensaje('UP')"> ↑ </div></td><td></td></tr>
+        <tr><td><div class="boton" id="left" onclick="enviarMensaje('LEFT')"> ← </div></td><td><div class="boton" id="down" onclick="enviarMensaje('DOWN')"> ↓ </div></td><td><div class="boton" id="right" onclick="enviarMensaje('RIGHT')"> → </div></td></tr>
+    </table>
+    <style>
+ 
+        table * {
+            text-align: center;
+        }
+    
+        table {
+            position:fixed;
+            left:45%;
+            top:40%;
+            transform:scale(2);
+        }
+
+
+        .boton {
+            width:20px;
+            height:20px;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #0094ff;
+            color: #FFF;
+            cursor: default;
+        }
+
+        table{
+            display:none;
+        }
+        .boton:active, .activo {
+            background-color: #ff6a00;
+        }
+    </style>
+</body>
+</html>
